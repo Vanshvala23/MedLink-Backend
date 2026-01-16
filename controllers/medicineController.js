@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 
 // Get the project root directory using absolute path
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const jsonPath = path.join(__dirname, '..', '..', 'Updated_Medicines.json');
+const jsonPath = path.join(process.cwd(),"Updated_Medicines.json")
 console.log('Looking for JSON file at:', jsonPath);
 
 // Read medicines once and cache them
