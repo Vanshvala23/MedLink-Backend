@@ -26,7 +26,7 @@ const corsOptions = {
     origin: [
         process.env.FRONTEND_URL || 'http://localhost:5173',
         process.env.ADMIN_URL || 'http://localhost:5174',
-        'https://medlink-frontend-xi.vercel.app/',
+        'https://medlink-frontend-xi.vercel.app',
         'https://medlinkplusadmin.netlify.app',
         'https://localhost:3000',
         'https://127.0.0.1:3000'
