@@ -1,30 +1,23 @@
 import jwt from "jsonwebtoken";
-
 const authUser = (req, res, next) => {
+  if (req.method === "OPTIONS") return next(); // ✅ allow preflight
+
   try {
     let token = req.headers.token;
-    // Also support 'Authorization: Bearer <token>'
-    if (!token && req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-      token = req.headers.authorization.split(' ')[1];
+
+    if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+      token = req.headers.authorization.split(" ")[1];
     }
+
     if (!token) {
-      return res.status(401).json({
-        success: false,
-        message: "Not Authorized: No token provided",
-      });
+      return res.status(401).json({ success: false, message: "No token" });
     }
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = {
-      id: decodedToken.id,
-      email: decodedToken.email || null,
-    };
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     next();
-  } catch (error) {
-    console.error("Auth Error:", error.message);
-    return res.status(401).json({
-      success: false,
-      message: "Invalid or expired token",
-    });
+  } catch {
+    res.status(401).json({ success: false, message: "Invalid token" });
   }
 };
 
